@@ -6,13 +6,23 @@ class Player:
         self.__name = name
         self.__level = level
         self.__experience = 0
-        self.__equipment_dict = {"health": 1, "attack": 1, "defense": 1}
-        self.__item_dict = {"reduce": 0}
+        self.__equipment_dict = {"HP": 0, "ATK": 0, "DEF": 0}
+        self.__item_dict = {"S": [0, 5], "M": [0, 10], "L": [0, 20]}
         self.__health = self.max_health
 
     @property
     def name(self):
         return self.__name
+
+    @property
+    def equipment(self):
+        return "\n".join(
+            [f"{k}+{v}" for k, v in self.__equipment_dict.items()])
+
+    @property
+    def item(self):
+        return "\n".join(
+            [f"{k} : {v[0]}" for k, v in self.__item_dict.items()])
 
     @property
     def experience(self):
@@ -24,9 +34,9 @@ class Player:
 
     @property
     def max_health(self):
-        bonus = 1.5 * sum([v for k, v in self.__equipment_dict.items()
-                           if k == "health"])
-        return round(self.__level * bonus)
+        return round(self.__level * 1.5) \
+               + sum([v for k, v in self.__equipment_dict.items()
+                      if k == "HP"])
 
     @property
     def health(self):
@@ -34,15 +44,28 @@ class Player:
 
     @property
     def attack(self):
-        bonus = 1.3 * sum([v for k, v in self.__equipment_dict.items()
-                           if k == "attack"])
-        return round(self.__level * bonus)
+        return round(self.__level * 1.3) \
+               + sum([v for k, v in self.__equipment_dict.items()
+                      if k == "ATK"])
 
     @property
     def defense(self):
-        bonus = 1.1 * sum([v for k, v in self.__equipment_dict.items()
-                           if k == "defense"])
-        return round(self.__level * bonus)
+        return round(self.__level * 1.1) \
+               + sum([v for k, v in self.__equipment_dict.items()
+                      if k == "DEF"])
+
+    def get_equipment(self, equipment, difficulty):
+        self.__equipment_dict[equipment] = round(difficulty / 2)
+
+    def get_item(self, size, amount):
+        self.__item_dict[size][0] += amount
+
+    def use_item(self, size):
+        if self.__item_dict[size][0] != 0:
+            self.__health += self.__item_dict[size][1]
+            if self.__health > self.max_health:
+                self.__health = self.max_health
+            self.__item_dict[size][0] -= 1
 
     def leveling(self, experience):
         self.__experience += experience

@@ -1,4 +1,5 @@
 from Enemy import Enemy
+from random import randrange
 import random
 import json
 
@@ -52,15 +53,36 @@ class Stage:
         if self.enemy.health <= 0:
             self.__difficulty += 1
             player.leveling(self.enemy.experience_drop)
+            self.drop(player)
             self.summon()
             self.__score += 10 * self.__difficulty / time
             return True
         return False
 
+    def drop(self, player):
+        if randrange(0, 10000) / 10000 < self.__enemy.drop_rate():
+            if randrange(0, 100) <= 20:
+                buff = randrange(0, 2)
+                if buff == 0:
+                    player.get_equipment("HP", self.__difficulty)
+                elif buff == 1:
+                    player.get_equipment("ATK", self.__difficulty)
+                else:
+                    player.get_equipment("DEF", self.__difficulty)
+            else:
+                size = randrange(0, 100)
+                amount = round(randrange(0, 500) / 100)
+                if size < 10:
+                    player.get_item("L", amount)
+                elif size < 50:
+                    player.get_item("M", amount)
+                else:
+                    player.get_item("S", amount)
+
     def record(self, name, time):
         new_data = {
             name: {
-                "score": self.__score,
+                "score": self.score,
                 "time": time
             }
         }

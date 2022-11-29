@@ -80,24 +80,24 @@ screen.addshape("cowboy.gif")
 screen.addshape("enemy.gif")
 
 cowboy = set_image("cowboy.gif", -270, -140)
-monster = set_image("enemy.gif", 270, -90)
 player_status = set_image("turtle", 0, 190)
-enemy_status = set_image("turtle", 220, -240)
+equipment = set_image("turtle", -190, -250)
+item = set_image("turtle", -190, -120)
 score = set_image("turtle", 130, 110)
+
+monster = set_image("enemy.gif", 270, -90)
+enemy_status = set_image("turtle", 220, -240)
 stage = Stage()
 
 cowboy.showturtle()
 monster.showturtle()
 
-text(player_status, user)
-text(enemy_status, f"HP: {stage.enemy.health}\n\n\n\n"
-                   f"Attack in: {round(stage.enemy.attack_speed)}")
 text(score, 0)
 
+whole_time = time.time()
 while True:
-
     word_list = stage.typist()
-    display = {word_list[i]: set_image("turtle", 0, -10 - i * 50)
+    display = {word_list[i]: set_image("turtle", 0, -15 - i * 50)
                for i in range(len(word_list))}
     [text(v, k) for k, v in display.items()]
 
@@ -105,8 +105,8 @@ while True:
     enemy_attack = Timer(speed, stage.fight, (stage.enemy, user))
     enemy_attack.start()
 
-    whole_time = time.time()
     start = time.time()
+
     while True:
         end = time.time()
         if end - start > speed:
@@ -119,6 +119,9 @@ while True:
              f"HP: {stage.enemy.health}\n\n\n\n"
              f"Attack in: {round(stage.enemy.attack_speed - (end - start))}")
 
+        text(equipment, user.equipment)
+        text(item, user.item)
+
         start = time.time()
         word = input()
         if word in word_list:
@@ -128,6 +131,8 @@ while True:
             if stage.next(user, time.time() - whole_time):
                 enemy_attack.cancel()
                 text(score, stage.score)
+        if word in ["S", "M", "L"]:
+            user.use_item(word)
         else:
             user.misspell(stage.difficulty)
 
