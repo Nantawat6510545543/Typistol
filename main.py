@@ -18,12 +18,12 @@ def text(obj, msg):
     obj.write(msg, font=("Verdana", 20, "normal"), align="center")
 
 
-print("Select 1 to play the game\n"
-      "Select 2 to view the leaderboard.\n"
-      "Select 3 to find a player")
 while True:
-    choose = int(input("please select: "))
-    if choose == 1:
+    print("Select 1 to play the game\n"
+          "Select 2 to view the leaderboard.\n"
+          "Select 3 to find a player")
+    choose = input("please select: ")
+    if choose == "1":
         name = input("User name: ")
         try:
             with open("record.json") as data_file:
@@ -45,7 +45,7 @@ while True:
 
         break
 
-    if choose == 2:
+    if choose == "2":
         try:
             with open("record.json") as data_file:
                 user_record = json.load(data_file)
@@ -54,8 +54,8 @@ while True:
         except FileNotFoundError:
             print("Not found leaderboard")
 
-    if choose == 3:
-        name = input("uses name: ").lower()
+    if choose == "3":
+        name = input("uses name: ")
         try:
             with open("record.json") as data_file:
                 user_record = json.load(data_file)
@@ -93,6 +93,8 @@ cowboy.showturtle()
 monster.showturtle()
 
 text(score, 0)
+text(equipment, user.equipment)
+text(item, user.item)
 
 whole_time = time.time()
 while True:
@@ -117,12 +119,9 @@ while True:
         text(player_status, user)
         text(enemy_status,
              f"HP: {stage.enemy.health}\n\n\n\n"
-             f"Attack in: {round(stage.enemy.attack_speed - (end - start))}")
+             f"Attack in: "
+             f"{round(stage.enemy.attack_speed - (time.time() - start))}")
 
-        text(equipment, user.equipment)
-        text(item, user.item)
-
-        start = time.time()
         word = input()
         if word in word_list:
             stage.fight(user, stage.enemy)
@@ -131,13 +130,19 @@ while True:
             if stage.next(user, time.time() - whole_time):
                 enemy_attack.cancel()
                 text(score, stage.score)
-        if word in ["S", "M", "L"]:
-            user.use_item(word)
+                text(equipment, user.equipment)
+                text(item, user.item)
+        elif word.upper() in ["S", "M", "L"]:
+            user.use_item(word.upper())
+            text(item, user.item)
         else:
             user.misspell(stage.difficulty)
 
-        if not word_list or user.health <= 0 or word == "OVER":
+        if not word_list:
             enemy_attack.cancel()
+            break
+
+        if user.health <= 0 or word == "OVER":
             break
 
     if user.health <= 0 or word == "OVER":

@@ -1,4 +1,4 @@
-import json
+from math import exp
 
 
 class Player:
@@ -54,18 +54,19 @@ class Player:
                + sum([v for k, v in self.__equipment_dict.items()
                       if k == "DEF"])
 
-    def get_equipment(self, equipment, difficulty):
-        self.__equipment_dict[equipment] = round(difficulty / 2)
+    def get_equipment(self, equipment, status):
+        if self.__equipment_dict[equipment] < status:
+            self.__equipment_dict[equipment] = status
 
     def get_item(self, size, amount):
         self.__item_dict[size][0] += amount
 
     def use_item(self, size):
         if self.__item_dict[size][0] != 0:
+            self.__item_dict[size][0] -= 1
             self.__health += self.__item_dict[size][1]
             if self.__health > self.max_health:
                 self.__health = self.max_health
-            self.__item_dict[size][0] -= 1
 
     def leveling(self, experience):
         self.__experience += experience
@@ -75,7 +76,8 @@ class Player:
             self.__health = self.max_health
 
     def misspell(self, difficulty):
-        self.__health -= round(difficulty / 2) - round(self.defense / 10)
+        self.__health = round(
+            self.__health * (1 - 0.4 * (1 / (1 + exp(-0.05 * difficulty)))))
 
     def damage(self, attack):
         self.__health -= attack
