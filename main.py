@@ -81,12 +81,12 @@ screen.addshape("enemy.gif")
 
 cowboy = set_image("cowboy.gif", -270, -140)
 player_status = set_image("turtle", 0, 190)
-equipment = set_image("turtle", -190, -250)
-item = set_image("turtle", -190, -120)
+equipment = set_image("turtle", -170, -250)
+item = set_image("turtle", -170, -120)
 score = set_image("turtle", 130, 110)
 
 monster = set_image("enemy.gif", 270, -90)
-enemy_status = set_image("turtle", 220, -240)
+enemy_status = set_image("turtle", 200, -240)
 stage = Stage()
 
 cowboy.showturtle()

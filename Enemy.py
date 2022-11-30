@@ -37,4 +37,3 @@ class Enemy:
                f"Health : {self.__health}, " \
                f"Attack : {self.attack}, " \
                f"Defense : {self.defense}"
-

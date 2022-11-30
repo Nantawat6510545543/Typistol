@@ -21,7 +21,7 @@ class Player:
 
     @property
     def item(self):
-        return "\n".join(
+        return "Potion\n" + "\n".join(
             [f"{k} : {v[0]}" for k, v in self.__item_dict.items()])
 
     @property

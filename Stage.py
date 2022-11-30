@@ -1,6 +1,5 @@
 from Enemy import Enemy
-from random import randrange
-import random
+from random import randrange, choice
 import json
 
 
@@ -36,7 +35,7 @@ class Stage:
         max_length = self.difficulty * 2
 
         while True:
-            n = random.choice(self.__all_word)
+            n = choice(self.__all_word)
 
             if n not in self.__word_list and len(n) <= max_length:
                 self.__word_list.append(str(n))
