@@ -11,15 +11,13 @@ class Stage:
         self.__word_list = []
         self.__difficulty = difficulty
         self.__score = 0
-        self.__enemy = Enemy(self.__difficulty)
+        self.__enemy = [Enemy(i) for i in
+                        range(difficulty - 1, difficulty + 1)]
+        self.__elite = randrange(0, 2)
 
     @property
     def all_word(self):
         return self.__all_word
-
-    @property
-    def word_list(self):
-        return self.__word_list
 
     @property
     def difficulty(self):
@@ -31,20 +29,25 @@ class Stage:
 
     @property
     def enemy(self):
-        return self.__enemy
+        return self.__enemy[self.__elite]
 
     def typist(self):
         self.__word_list = []
+        max_length = self.difficulty * 2
+
         while True:
             n = random.choice(self.__all_word)
-            if n not in self.__word_list and len(n) <= self.difficulty * 2:
+
+            if n not in self.__word_list and len(n) <= max_length:
                 self.__word_list.append(str(n))
-            if sum([len(i) for i in self.__word_list]) >= self.__difficulty \
-                    or len(self.__word_list) == 4:
-                return self.__word_list
+                if max_length - len(n) <= 0 or len(self.__word_list) == 5:
+                    return self.__word_list
+                max_length = max(3, max_length - len(n))
 
     def summon(self):
-        self.__enemy = Enemy(self.__difficulty)
+        self.__enemy = [Enemy(i) for i in
+                        range(self.__difficulty - 1, self.__difficulty + 1)]
+        self.__elite = randrange(0, 2)
 
     def fight(self, attacker, target):
         target.damage(max(attacker.attack - target.defense, self.__difficulty))
@@ -55,29 +58,29 @@ class Stage:
             player.leveling(self.enemy.experience_drop)
             self.drop(player)
             self.summon()
-            self.__score += 10 * self.__difficulty / time
+            self.__score += 10 * self.__difficulty - time
             return True
         return False
 
     def drop(self, player):
-        if randrange(0, 10000) / 10000 < self.__enemy.drop_rate():
+        if randrange(0, 10000) / 10000 < self.enemy.drop_rate():
             if randrange(0, 100) <= 20:
                 buff = randrange(0, 2)
+                status = round(self.__difficulty + randrange(-5, 5) / 2)
                 if buff == 0:
-                    player.get_equipment("HP", self.__difficulty)
+                    player.get_equipment("HP", status)
                 elif buff == 1:
-                    player.get_equipment("ATK", self.__difficulty)
+                    player.get_equipment("ATK", status)
                 else:
-                    player.get_equipment("DEF", self.__difficulty)
+                    player.get_equipment("DEF", status)
             else:
                 size = randrange(0, 100)
-                amount = round(randrange(0, 500) / 100)
                 if size < 10:
-                    player.get_item("L", amount)
+                    player.get_item("L", randrange(1, 2))
                 elif size < 50:
-                    player.get_item("M", amount)
+                    player.get_item("M", randrange(1, 3))
                 else:
-                    player.get_item("S", amount)
+                    player.get_item("S", randrange(1, 5))
 
     def record(self, name, time):
         new_data = {
