@@ -40,7 +40,7 @@ class Player:
 
     @property
     def health(self):
-        return self.__health
+        return max(0, self.__health)
 
     @property
     def attack(self):
@@ -86,6 +86,6 @@ class Player:
         return f"Name : {self.__name}, " \
                f"Experience : {self.__experience}/{self.limit}, " \
                f"Level : {self.__level}\n" \
-               f"Health : {self.__health}/{self.max_health}, " \
+               f"Health : {self.health}/{self.max_health}, " \
                f"Attack : {self.attack}, " \
                f"Defense : {self.defense}"

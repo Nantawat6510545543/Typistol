@@ -57,7 +57,7 @@ class Stage:
             player.leveling(self.enemy.experience_drop)
             self.drop(player)
             self.summon()
-            self.__score += 10 * self.__difficulty - time
+            self.__score += max(0, 10 * self.__difficulty - time)
             return True
         return False
 

@@ -3,7 +3,7 @@ import time
 import json
 from Player import Player
 from Stage import Stage
-from threading import Timer
+from threading import Timer, Thread
 
 
 def set_image(picture, x, y):
@@ -16,6 +16,14 @@ def set_image(picture, x, y):
 def text(obj, msg):
     obj.clear()
     obj.write(msg, font=("Verdana", 20, "normal"), align="center")
+
+
+word = ""
+
+
+def get_input():
+    global word
+    word = input()
 
 
 while True:
@@ -86,7 +94,8 @@ item = set_image("turtle", -170, -120)
 score = set_image("turtle", 130, 110)
 
 monster = set_image("enemy.gif", 270, -90)
-enemy_status = set_image("turtle", 200, -240)
+enemy_hp = set_image("turtle", 150, -150)
+enemy_time = set_image("turtle", 200, -240)
 stage = Stage()
 
 cowboy.showturtle()
@@ -95,8 +104,12 @@ monster.showturtle()
 text(score, 0)
 text(equipment, user.equipment)
 text(item, user.item)
+text(player_status, user)
+text(enemy_hp, f"HP: {stage.enemy.health}")
+text(enemy_time, f"Attack in: {round(stage.enemy.attack_speed)}")
 
 whole_time = time.time()
+player_input = Thread(target=get_input)
 while True:
     word_list = stage.typist()
     display = {word_list[i]: set_image("turtle", 0, -15 - i * 50)
@@ -108,35 +121,41 @@ while True:
     enemy_attack.start()
 
     start = time.time()
-
+    one = time.time()
     while True:
         end = time.time()
         if end - start > speed:
+            text(player_status, user)
             enemy_attack = Timer(speed, stage.fight, (stage.enemy, user))
             enemy_attack.start()
             start = end
 
-        text(player_status, user)
-        text(enemy_status,
-             f"HP: {stage.enemy.health}\n\n\n\n"
-             f"Attack in: "
-             f"{round(stage.enemy.attack_speed - (time.time() - start))}")
+        if not player_input.is_alive():
+            player_input = Thread(target=get_input)
+            player_input.start()
 
-        word = input()
-        if word in word_list:
-            stage.fight(user, stage.enemy)
-            word_list.remove(word)
-            display[word].clear()
-            if stage.next(user, time.time() - whole_time):
-                enemy_attack.cancel()
-                text(score, stage.score)
-                text(equipment, user.equipment)
-                text(item, user.item)
-        elif word.upper() in ["S", "M", "L"]:
-            user.use_item(word.upper())
+            if word in word_list:
+                stage.fight(user, stage.enemy)
+                word_list.remove(word)
+                display[word].clear()
+                if stage.next(user, time.time() - whole_time):
+                    enemy_attack.cancel()
+                    text(score, stage.score)
+                    text(equipment, user.equipment)
+                text(enemy_hp, f"HP: {stage.enemy.health}")
+            elif word.upper() in ["S", "M", "L"]:
+                user.use_item(word.upper())
+            else:
+                user.misspell(stage.difficulty)
+
             text(item, user.item)
-        else:
-            user.misspell(stage.difficulty)
+            text(player_status, user)
+
+        two = time.time()
+        if two - one >= 0.1:
+            attack_in = stage.enemy.attack_speed - (time.time() - start)
+            text(enemy_time, f"Attack in: {attack_in:.1f}")
+            one = two
 
         if not word_list:
             enemy_attack.cancel()
