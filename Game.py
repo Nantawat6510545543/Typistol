@@ -209,7 +209,7 @@ tur = ["Welcome to Typistol",
        "equipment",
 
        " Be careful using items\n"
-       "  that you don't have,\n"
+       " that you don't have,\n"
        "will count as misspelling",
 
        "Tutorial End"]
