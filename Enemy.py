@@ -20,7 +20,7 @@ class Enemy:
 
     @property
     def attack_speed(self):
-        return 20 - 10 * ((1 / (1 + exp(-0.01 * self.__difficulty))) ** 10)
+        return 20 - 10 * ((1 / (1 + exp(-0.05 * self.__difficulty))) ** 10)
 
     @property
     def defense(self):
@@ -36,4 +36,7 @@ class Enemy:
         return f"Difficulty : {self.__difficulty}" \
                f"Health : {self.__health}, " \
                f"Attack : {self.attack}, " \
+               f"Attack : {self.attack_speed}, " \
                f"Defense : {self.defense}"
+
+
