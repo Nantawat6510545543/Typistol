@@ -1,4 +1,4 @@
-from math import exp
+from math import exp, floor
 
 
 class Player:
@@ -61,12 +61,14 @@ class Player:
     def get_item(self, size, amount):
         self.__item_dict[size][0] += amount
 
-    def use_item(self, size):
+    def use_item(self, size, difficulty):
         if self.__item_dict[size][0] != 0:
             self.__item_dict[size][0] -= 1
             self.__health += self.__item_dict[size][1]
             if self.__health > self.max_health:
                 self.__health = self.max_health
+        else:
+            self.misspell(difficulty)
 
     def leveling(self, experience):
         self.__experience += experience
@@ -76,7 +78,7 @@ class Player:
             self.__health = self.max_health
 
     def misspell(self, difficulty):
-        self.__health = round(
+        self.__health = floor(
             self.__health * (1 - 0.4 * (1 / (1 + exp(-0.05 * difficulty)))))
 
     def damage(self, attack):
