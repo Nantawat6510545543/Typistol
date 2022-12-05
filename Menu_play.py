@@ -6,7 +6,8 @@ while True:
     print("Select 0 to start the tutorial\n"
           "Select 1 to play the game\n"
           "Select 2 to view the leaderboard.\n"
-          "Select 3 to find a player")
+          "Select 3 to find a player\n"
+          "Type 'exit' to quit the program")
     choose = input("please select: ")
 
     if choose == "0":
@@ -68,6 +69,9 @@ while True:
 
         except FileNotFoundError:
             print("Not found leaderboard")
+
+    elif choose == "exit":
+        break
 
     else:
         os.system('cls')

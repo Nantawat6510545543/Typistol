@@ -104,3 +104,4 @@ def __repr__(self):
            f"difficulty : {self.__difficulty}, " \
            f"score : {self.__score}\n" \
            f"enemy : {self.__enemy}\n"
+

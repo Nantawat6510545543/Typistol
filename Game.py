@@ -129,20 +129,147 @@ def typistol(name):
 
 
 index = 0
-tur = ["man", "go", "test"]
+tur = ["Welcome to Typistol",
+
+       "This is a typing game.",
+
+       "But you will role-play as a\n"
+       "  cowboy who fights with\n"
+       "          criminals.",
+
+       "   In order to attack the\n"
+       "enemy thief you will need\n"
+       "to type the text that comes\n"
+       "     up on this screen.",
+
+       "But be careful, enemies can\n"
+       " attack you and if you type\n"
+       "  incorrectly, the gun will\n"
+       "     fire at you instead.",
+
+       "This is an example of an\n"
+       "      upcoming word.",
+
+       "\n".join(Stage(100).typist()),
+
+       "However, the further you\n"
+       "play, the harder the game\n"
+       "      difficulty will be.",
+
+       "You can see the status of\n"
+       "enemies near themselves.\n"
+       "It will show two values,\n"
+       "health and real-time attack.",
+
+       "Health",
+
+       "Real-time attack",
+
+       "   And don't worry if you can\n"
+       "type all the words on the screen\n"
+       "     before being attacked.\n"
+       "Enemies will reset attack time.",
+
+       "When you defeat an enemy\n"
+       " you gain experience and\n"
+       "  if you reach a certain\n"
+       "amount you will level up.",
+
+       "You can see your stats\n"
+       "at the top of the screen.",
+
+       "   In the sun area you will\n"
+       "see the number 0 representing\n"
+       "the score. The score is based\n"
+       "   on enemy difficulty and\n"
+       "     elimination speed.",
+
+       "In addition to the\n"
+       "experience You also\n"
+       "have a chance to get\n"
+       "equipment and items.",
+
+       "Items are disposable,\n"
+       "you can use them by\n"
+       " typing S , M , or L\n"
+       "      to use them.\n"
+       "  Their effect is to\n"
+       "   increase health.",
+
+       " Equipment has a maximum\n"
+       "   value increase feature,\n"
+       "  but the chance of getting\n"
+       "it is lower than that of items.",
+
+       "  You can check available\n"
+       "equipment and items next\n"
+       "     to your character.",
+
+       "item",
+       "equipment",
+
+       " Be careful using items\n"
+       "  that you don't have,\n"
+       "will count as misspelling",
+
+       "Tutorial End"]
 
 
-def tutor():
+def tutor(x, y):
     global index, tur
     turtle.hideturtle()
+    turtle.penup()
+    turtle.setpos(0, -200)
     turtle.clear()
-    turtle.write(tur[index])
-    index += 1
-    if index == 3:
-        return None
+
+    stage = Stage(100)
+    user = Player("tur", 100)
+
+    if "cowboy" in tur[index]:
+        cowboy.showturtle()
+        monster.showturtle()
+
+    elif "Health" == tur[index]:
+        monster.showturtle()
+        text(enemy_hp, f"HP: {stage.enemy.health}")
+
+    elif "Real-time attack" == tur[index]:
+        monster.showturtle()
+        text(enemy_time, f"Attack in: {stage.enemy.attack_speed:.1f}")
+
+    elif "reset" in tur[index]:
+        monster.hideturtle()
+        enemy_hp.clear()
+        enemy_time.clear()
+
+    elif "score" in tur[index]:
+        text(score, 0)
+
+    elif "equipment" == tur[index]:
+        text(equipment, user.equipment)
+
+    elif "item" == tur[index]:
+        cowboy.showturtle()
+        text(item, user.item)
+
+    elif "stats" in tur[index]:
+        text(player_status, user)
+
+    elif "misspelling" in tur[index]:
+        equipment.clear()
+        item.clear()
+
+    else:
+        cowboy.hideturtle()
+        monster.hideturtle()
+
+    turtle.write(tur[index], font=("Verdana", 20, "normal"), align="center")
+    if len(tur) > index + 1:
+        index += 1
+    else:
+        text(title, "Enter to return\nto the menu")
 
 
 def tutorial():
-    stage = Stage()
     title.clear()
     screen.onclick(tutor)
