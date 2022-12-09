@@ -38,5 +38,3 @@ class Enemy:
                f"Attack : {self.attack}, " \
                f"Attack : {self.attack_speed}, " \
                f"Defense : {self.defense}"
-
-

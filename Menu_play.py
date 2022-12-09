@@ -11,6 +11,7 @@ while True:
     choose = input("please select: ")
 
     if choose == "0":
+        print("Click the screen to view the tutorial or")
         Game.tutorial()
 
     elif choose == "1":

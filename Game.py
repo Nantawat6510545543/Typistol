@@ -7,6 +7,7 @@ from Player import Player
 from Stage import Stage
 
 word = ""
+in_tutorial = False
 
 
 def get_input():
@@ -50,6 +51,9 @@ enemy_time = set_image("turtle", 200, -240)
 
 
 def typistol(name):
+    global in_tutorial, word
+    in_tutorial = False
+    tutor(0, 0)
     stage = Stage()
     title.clear()
     user = Player(name)
@@ -125,6 +129,7 @@ def typistol(name):
                 text(score, f"score = {stage.score}\ngame_over")
                 [display[k].clear() for k, v in display.items()]
                 text(title, "Enter to return\nto the menu")
+                word = ""
                 return None
 
 
@@ -216,7 +221,11 @@ tur = ["Welcome to Typistol",
 
 
 def tutor(x, y):
-    global index, tur
+    global index, tur, in_tutorial
+    if not in_tutorial:
+        turtle.clear()
+        return
+
     turtle.hideturtle()
     turtle.penup()
     turtle.setpos(0, -200)
@@ -271,5 +280,18 @@ def tutor(x, y):
 
 
 def tutorial():
+    global in_tutorial
+    in_tutorial = True
     title.clear()
+    cowboy.hideturtle()
+    monster.hideturtle()
+    cowboy.clear()
+    player_status.clear()
+    equipment.clear()
+    item.clear()
+    score.clear()
+    monster.clear()
+    enemy_hp.clear()
+    enemy_time.clear()
+
     screen.onclick(tutor)
