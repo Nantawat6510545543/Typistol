@@ -4,9 +4,17 @@ import json
 
 
 class Stage:
+    """
+    Stage class represented as the main operator that
+    controls the game's progress.
+    """
+
     def __init__(self, difficulty=1):
-        with open("word.txt") as data_file:
-            self.__all_word = data_file.read().splitlines()
+        try:
+            with open("word.txt") as data_file:
+                self.__all_word = data_file.read().splitlines()
+        except FileNotFoundError:
+            raise FileNotFoundError("word.txt not found")
         self.__word_list = []
         self.__difficulty = difficulty
         self.__score = 0
@@ -31,6 +39,9 @@ class Stage:
         return self.__enemy[self.__elite]
 
     def typist(self):
+        """
+        Choose some words at random from the word list.
+        """
         self.__word_list = []
         max_length = self.difficulty * 2
 
@@ -44,14 +55,26 @@ class Stage:
                 max_length = max(3, max_length - len(n))
 
     def summon(self):
+        """
+        Create a list of enemies and randomly increases the difficulty.
+        """
         self.__enemy = [Enemy(i) for i in
                         range(self.__difficulty - 1, self.__difficulty + 1)]
         self.__elite = randrange(0, 2)
 
     def fight(self, attacker, target):
+        """
+        Inflicts damage to the target
+        with a minimum depending on the difficulty.
+        """
         target.damage(max(attacker.attack - target.defense, self.__difficulty))
 
     def next(self, player, time):
+        """
+        Check if the enemy is alive.
+        If an enemy dies, give the player experience and loot,
+        then create a new enemy.
+        """
         if self.enemy.health <= 0:
             self.__difficulty += 1
             player.leveling(self.enemy.experience_drop)
@@ -62,6 +85,9 @@ class Stage:
         return False
 
     def drop(self, player):
+        """
+        Random item for player
+        """
         if randrange(0, 10000) / 10000 < self.enemy.drop_rate():
             if randrange(0, 100) <= 20:
                 buff = randrange(0, 2)
@@ -82,6 +108,9 @@ class Stage:
                     player.get_item("S", randrange(1, 5))
 
     def record(self, name, time):
+        """
+        Record player data
+        """
         new_data = {
             name: {
                 "score": self.score,
@@ -97,11 +126,3 @@ class Stage:
         except FileNotFoundError:
             with open("record.json", "w") as date_file:
                 json.dump(new_data, date_file, indent=4)
-
-
-def __repr__(self):
-    return f"word_list: {self.__word_list}, " \
-           f"difficulty : {self.__difficulty}, " \
-           f"score : {self.__score}\n" \
-           f"enemy : {self.__enemy}\n"
-

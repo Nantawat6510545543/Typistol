@@ -30,11 +30,7 @@ class Enemy:
         return 100 * (1 / (1 + exp(-0.05 * self.__difficulty))) ** 10
 
     def damage(self, attack):
+        """
+        Reduces health based on damage taken.
+        """
         self.__health -= attack
-
-    def __repr__(self):
-        return f"Difficulty : {self.__difficulty}" \
-               f"Health : {self.__health}, " \
-               f"Attack : {self.attack}, " \
-               f"Attack : {self.attack_speed}, " \
-               f"Defense : {self.defense}"

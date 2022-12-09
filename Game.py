@@ -1,6 +1,6 @@
 import turtle
-import time
 import os
+from time import time
 from threading import Timer, Thread
 
 from Player import Player
@@ -11,11 +11,17 @@ in_tutorial = False
 
 
 def get_input():
+    """
+    Thread function for get real-time input
+    """
     global word
     word = input()
 
 
 def set_image(picture, x, y):
+    """
+    Create a turtle object
+    """
     obj = turtle.Turtle(shape=picture, visible=False)
     obj.penup()
     obj.setpos(x, y)
@@ -23,10 +29,16 @@ def set_image(picture, x, y):
 
 
 def text(obj, msg):
+    """
+    Rewrite the word
+    """
     obj.clear()
     obj.write(msg, font=("Verdana", 20, "normal"), align="center")
 
 
+"""
+Game setup
+"""
 screen = turtle.Screen()
 screen.setup(width=1071, height=509)
 screen.bgpic("background.png")
@@ -51,6 +63,10 @@ enemy_time = set_image("turtle", 200, -240)
 
 
 def typistol(name):
+    """
+    Main game
+    Display all setup
+    """
     global in_tutorial, word
     in_tutorial = False
     tutor(0, 0)
@@ -66,10 +82,13 @@ def typistol(name):
     text(player_status, user)
     text(enemy_hp, f"HP: {stage.enemy.health}")
 
-    whole_time = time.time()
+    record_time = time()
     player_input = Thread(target=get_input)
 
     while True:
+        """
+        Loop of the main game 
+        """
         word_list = stage.typist()
         display = {word_list[i]: set_image("turtle", 0, -15 - i * 50)
                    for i in range(len(word_list))}
@@ -79,14 +98,18 @@ def typistol(name):
         enemy_attack = Timer(speed, stage.fight, (stage.enemy, user))
         enemy_attack.start()
 
-        start = time.time()
-        one = time.time()
+        round_time = time()
+        start_time = time()
         while True:
+            """
+            Main battle
+            Start of all Thread
+            """
             if not enemy_attack.is_alive():
                 text(player_status, user)
                 enemy_attack = Timer(speed, stage.fight, (stage.enemy, user))
                 enemy_attack.start()
-                start = time.time()
+                round_time = time()
 
             if not player_input.is_alive():
                 player_input = Thread(target=get_input)
@@ -96,7 +119,7 @@ def typistol(name):
                     stage.fight(user, stage.enemy)
                     word_list.remove(word)
                     display[word].clear()
-                    if stage.next(user, time.time() - whole_time):
+                    if stage.next(user, time() - record_time):
                         enemy_attack.cancel()
                         text(score, stage.score)
                         text(equipment, user.equipment)
@@ -113,18 +136,17 @@ def typistol(name):
                 text(item, user.item)
                 text(player_status, user)
 
-            two = time.time()
-            if two - one >= 0.1:
-                attack_in = stage.enemy.attack_speed - (time.time() - start)
+            if time() - start_time >= 0.1:
+                start_time = time()
+                attack_in = stage.enemy.attack_speed - (time() - round_time)
                 text(enemy_time, f"Attack in: {attack_in:.1f}")
-                one = two
 
             if not word_list:
                 enemy_attack.cancel()
                 break
 
             if user.health <= 0 or word == "OVER":
-                stage.record(user.name, round(time.time() - whole_time))
+                stage.record(user.name, round(time() - record_time))
                 text(player_status, user)
                 text(score, f"score = {stage.score}\ngame_over")
                 [display[k].clear() for k, v in display.items()]
@@ -133,6 +155,9 @@ def typistol(name):
                 return None
 
 
+"""
+Tutorial zone
+"""
 index = 0
 tur = ["Welcome to Typistol",
 
@@ -221,6 +246,9 @@ tur = ["Welcome to Typistol",
 
 
 def tutor(x, y):
+    """
+    tutorial control
+    """
     global index, tur, in_tutorial
     if not in_tutorial:
         turtle.clear()
@@ -280,6 +308,10 @@ def tutor(x, y):
 
 
 def tutorial():
+    """
+    Game's tutorial
+    Display text and change every click
+    """
     global in_tutorial
     in_tutorial = True
     title.clear()

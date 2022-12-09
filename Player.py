@@ -2,6 +2,9 @@ from math import exp, floor
 
 
 class Player:
+    """
+    Player class represented as a user and containing values for player.
+    """
     def __init__(self, name="", level=1):
         self.__name = name
         self.__level = level
@@ -23,10 +26,6 @@ class Player:
     def item(self):
         return "Potion\n" + "\n".join(
             [f"{k} : {v[0]}" for k, v in self.__item_dict.items()])
-
-    @property
-    def experience(self):
-        return self.__experience
 
     @property
     def limit(self):
@@ -62,6 +61,9 @@ class Player:
         self.__item_dict[size][0] += amount
 
     def use_item(self, size, difficulty):
+        """
+        Using an item if it doesn't exist counts as a misspelling.
+        """
         if self.__item_dict[size][0] != 0:
             self.__item_dict[size][0] -= 1
             self.__health += self.__item_dict[size][1]
@@ -71,6 +73,9 @@ class Player:
             self.misspell(difficulty)
 
     def leveling(self, experience):
+        """
+        Earn experience and level up if you reach the experience threshold.
+        """
         self.__experience += experience
         if self.__experience >= self.limit:
             self.__experience -= self.limit
@@ -78,10 +83,16 @@ class Player:
             self.__health = self.max_health
 
     def misspell(self, difficulty):
+        """
+        Reduce health by difficulty.
+        """
         self.__health = floor(
             self.__health * (1 - 0.4 * (1 / (1 + exp(-0.05 * difficulty)))))
 
     def damage(self, attack):
+        """
+        Reduces health based on damage taken.
+        """
         self.__health -= attack
 
     def __repr__(self):

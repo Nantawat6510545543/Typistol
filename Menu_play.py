@@ -2,6 +2,9 @@ import json
 import os
 import Game
 
+"""
+Run this file to get started.
+"""
 while True:
     print("Select 0 to start the tutorial\n"
           "Select 1 to play the game\n"
