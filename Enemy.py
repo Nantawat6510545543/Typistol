@@ -26,6 +26,7 @@ class Enemy:
     def defense(self):
         return round(self.__difficulty * 1.3)
 
+    @property
     def drop_rate(self):
         return 100 * (1 / (1 + exp(-0.05 * self.__difficulty))) ** 10
 

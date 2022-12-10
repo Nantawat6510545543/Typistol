@@ -88,7 +88,7 @@ class Stage:
         """
         Random item for player
         """
-        if randrange(0, 10000) / 10000 < self.enemy.drop_rate():
+        if randrange(0, 10000) / 10000 < self.enemy.drop_rate:
             if randrange(0, 100) <= 20:
                 buff = randrange(0, 2)
                 status = round(self.__difficulty + randrange(-5, 5) / 2)
