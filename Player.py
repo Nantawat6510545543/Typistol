@@ -9,8 +9,8 @@ class Player:
         self.__name = name
         self.__level = level
         self.__experience = 0
-        self.__equipment_dict = {"HP": 23, "ATK": 21, "DEF": 20}
-        self.__item_dict = {"S": [15, 5], "M": [7, 10], "L": [3, 20]}
+        self.__equipment_dict = {"HP": 0, "ATK": 0, "DEF": 0}
+        self.__item_dict = {"S": [0, 5], "M": [0, 10], "L": [0, 20]}
         self.__health = self.max_health
 
     @property

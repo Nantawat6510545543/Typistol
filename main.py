@@ -53,8 +53,8 @@ while True:
                       f"{i[1]['score']:^{n}}|"
                       f"{i[1]['time']:^{n}}|")
                 if c == 10:
-                    print("-" * (3 * n + 4))
                     break
+            print("-" * (3 * n + 4))
 
         except FileNotFoundError:
             print("Not found leaderboard")
