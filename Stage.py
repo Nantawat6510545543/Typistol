@@ -9,7 +9,7 @@ class Stage:
     controls the game's progress.
     """
 
-    def __init__(self, difficulty=1):
+    def __init__(self, difficulty=50):
         try:
             with open("word.txt") as data_file:
                 self.__all_word = data_file.read().splitlines()
@@ -39,9 +39,7 @@ class Stage:
         return self.__enemy[self.__elite]
 
     def typist(self):
-        """
-        Choose some words at random from the word list.
-        """
+        """ Choose some words at random from the word list. """
         self.__word_list = []
         max_length = self.difficulty * 2
 
@@ -67,7 +65,7 @@ class Stage:
         Inflicts damage to the target
         with a minimum depending on the difficulty.
         """
-        target.damage(max(attacker.attack - target.defense, self.__difficulty))
+        target.damage(max(attacker.attack - target.defense, 1))
 
     def next(self, player, time):
         """
@@ -85,9 +83,7 @@ class Stage:
         return False
 
     def drop(self, player):
-        """
-        Random item for player
-        """
+        """ Random item for player """
         if randrange(0, 10000) / 10000 < self.enemy.drop_rate:
             if randrange(0, 100) <= 20:
                 buff = randrange(0, 2)
@@ -108,9 +104,7 @@ class Stage:
                     player.get_item("S", randrange(1, 5))
 
     def record(self, name, time):
-        """
-        Record player data
-        """
+        """ Record player data """
         new_data = {
             name: {
                 "score": self.score,

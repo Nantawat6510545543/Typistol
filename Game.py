@@ -11,17 +11,13 @@ in_tutorial = False
 
 
 def get_input():
-    """
-    Thread function for get real-time input
-    """
+    """ Thread function for get real-time input """
     global word
     word = input()
 
 
 def set_image(picture, x, y):
-    """
-    Create a turtle object
-    """
+    """ Create a turtle object """
     obj = turtle.Turtle(shape=picture, visible=False)
     obj.penup()
     obj.setpos(x, y)
@@ -29,16 +25,12 @@ def set_image(picture, x, y):
 
 
 def text(obj, msg):
-    """
-    Rewrite the word
-    """
+    """ Rewrite the word """
     obj.clear()
     obj.write(msg, font=("Verdana", 20, "normal"), align="center")
 
 
-"""
-Game setup
-"""
+""" Screen setup """
 screen = turtle.Screen()
 screen.setup(width=1071, height=509)
 screen.bgpic("background.png")
@@ -86,9 +78,7 @@ def typistol(name):
     player_input = Thread(target=get_input)
 
     while True:
-        """
-        Loop of the main game 
-        """
+        """ Loop of the main game """
         word_list = stage.typist()
         display = {word_list[i]: set_image("turtle", 0, -15 - i * 50)
                    for i in range(len(word_list))}
@@ -155,9 +145,7 @@ def typistol(name):
                 return None
 
 
-"""
-Tutorial zone
-"""
+""" Tutorial zone """
 index = 0
 tur = ["Welcome to Typistol",
 
@@ -246,11 +234,10 @@ tur = ["Welcome to Typistol",
 
 
 def tutor(x, y):
-    """
-    tutorial control
-    """
+    """ tutorial control """
     global index, tur, in_tutorial
     if not in_tutorial:
+        turtle.hideturtle()
         turtle.clear()
         return
 
@@ -327,3 +314,8 @@ def tutorial():
     enemy_time.clear()
 
     screen.onclick(tutor)
+
+
+def over():
+    global screen
+    screen.bye()

@@ -1,5 +1,5 @@
 # Typistol
-**Typistol** is a typist game where players take on the role of a shooter. By shooting each time, players need to type the correct word to shoot enemies. If the player misspelled or typed too late, the player will take damage. If the player exhausts the character's HP, it is considered game over. And every time the player defeats an enemy, the game gets more and more difficult.
+    **Typistol** is an endless arcade typist game where players take on the role of a shooter. By shooting each time, players need to type the correct word to shoot enemies. If the player misspelled or typed too late, the player will take damage. If the player exhausts the character's HP, it is considered game over. And every time the player defeats an enemy, the game gets more and more difficult.
 
 This game is actually an academic project which is a part of the 01219114/01219115 Programming 1 course at Kasetsart University. The game is made possible using Python 3 and the builtin module, [turtle](https://docs.python.org/3/library/turtle.html) and [threading](https://docs.python.org/3/library/threading.html).
 
@@ -25,6 +25,15 @@ Get input through console to select the options.
 **Tutorial** : Explains how to play across the screen in text. Click on the screen to go to the next tip.
 
 **Main game** :The game, every action of the player must go through the console only. The player has to type the correct word while looking at the game screen. The game ends when the player gets their health down to 0.
+
+*game system*
+
+- Attack: Type the word correctly. Enemies take damage based on the character's attack and enemy's defense.
+- Misspelled: Player takes damage depending on the difficulty of the stage.
+- Experience: Earned by defeating enemies.
+- Leveling: When the experience limit is reached, players will increase their level and various stats.
+- Equipment: Has a chance to be obtained by defeating enemies. The more difficult, the higher the chance.When received, it increases one of the player's stats.
+- Item: Has a chance to be obtained by defeating enemies. The more difficult, the higher the chance. When obtained can type L,M or S to use it to restore some health.
 
 **Leaderboard** : Show the leaderboard.
 

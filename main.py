@@ -2,9 +2,7 @@ import json
 import os
 import Game
 
-"""
-Run this file to get started.
-"""
+""" Run this file to get started. """
 while True:
     print("Select 0 to start the tutorial\n"
           "Select 1 to play the game\n"
@@ -50,11 +48,13 @@ while True:
             n = 15
             print("-" * (3 * n + 4))
             print(f"|{'User':^{n}}|{'Score':^{n}}|{'Time':^{n}}|")
-            for i in user_record:
+            for c, i in enumerate(user_record):
                 print(f"|{i[0]:^{n}}|"
                       f"{i[1]['score']:^{n}}|"
                       f"{i[1]['time']:^{n}}|")
-            print("-" * (3 * n + 4))
+                if c == 10:
+                    print("-" * (3 * n + 4))
+                    break
 
         except FileNotFoundError:
             print("Not found leaderboard")
@@ -75,6 +75,7 @@ while True:
             print("Not found leaderboard")
 
     elif choose == "exit":
+        Game.over()
         break
 
     else:

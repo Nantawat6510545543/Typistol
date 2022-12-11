@@ -5,12 +5,12 @@ class Player:
     """
     Player class represented as a user and containing values for player.
     """
-    def __init__(self, name="", level=1):
+    def __init__(self, name="", level=100):
         self.__name = name
         self.__level = level
         self.__experience = 0
-        self.__equipment_dict = {"HP": 0, "ATK": 0, "DEF": 0}
-        self.__item_dict = {"S": [0, 5], "M": [0, 10], "L": [0, 20]}
+        self.__equipment_dict = {"HP": 23, "ATK": 21, "DEF": 20}
+        self.__item_dict = {"S": [15, 5], "M": [7, 10], "L": [3, 20]}
         self.__health = self.max_health
 
     @property
@@ -83,16 +83,12 @@ class Player:
             self.__health = self.max_health
 
     def misspell(self, difficulty):
-        """
-        Reduce health by difficulty.
-        """
+        """ Reduce health by difficulty. """
         self.__health = floor(
             self.__health * (1 - 0.4 * (1 / (1 + exp(-0.05 * difficulty)))))
 
     def damage(self, attack):
-        """
-        Reduces health based on damage taken.
-        """
+        """ Reduces health based on damage taken. """
         self.__health -= attack
 
     def __repr__(self):
