@@ -9,7 +9,7 @@ class Stage:
     controls the game's progress.
     """
 
-    def __init__(self, difficulty=50):
+    def __init__(self, difficulty=1):
         try:
             with open("word.txt") as data_file:
                 self.__all_word = data_file.read().splitlines()

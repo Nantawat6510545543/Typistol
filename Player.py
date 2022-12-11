@@ -5,7 +5,7 @@ class Player:
     """
     Player class represented as a user and containing values for player.
     """
-    def __init__(self, name="", level=100):
+    def __init__(self, name="", level=1):
         self.__name = name
         self.__level = level
         self.__experience = 0
