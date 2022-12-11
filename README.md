@@ -1,5 +1,5 @@
 # Typistol
-    **Typistol** is an endless arcade typist game where players take on the role of a shooter. By shooting each time, players need to type the correct word to shoot enemies. If the player misspelled or typed too late, the player will take damage. If the player exhausts the character's HP, it is considered game over. And every time the player defeats an enemy, the game gets more and more difficult.
+**Typistol** is an endless arcade typist game where players take on the role of a shooter. By shooting each time, players need to type the correct word to shoot enemies. If the player misspelled or typed too late, the player will take damage. If the player exhausts the character's HP, it is considered game over. And every time the player defeats an enemy, the game gets more and more difficult.
 
 This game is actually an academic project which is a part of the 01219114/01219115 Programming 1 course at Kasetsart University. The game is made possible using Python 3 and the builtin module, [turtle](https://docs.python.org/3/library/turtle.html) and [threading](https://docs.python.org/3/library/threading.html).
 
